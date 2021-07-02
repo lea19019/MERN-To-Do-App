@@ -1,9 +1,10 @@
 // Requirements to help our server work.
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 const todoRoutes = require('./routes/todo');
 const db = require('./utils/db'); // We are getting our database connection from here
-const app = express();
+const app = express().use('*', cors());
 
 app.use(bodyParser({ extended: false }))
 app.use(bodyParser.json());
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
         'GET,POST,PUT,PATCH,DELETE,OPTIONS'
     );
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     next();
 });
 
@@ -26,6 +28,6 @@ db.initDb((err, db) => {
     if (err) {
         console.log(err);
     } else {
-        app.listen(3000);
+        app.listen(5050);
     }
 })

@@ -1,5 +1,6 @@
 const mongodb = require('mongodb');
 const db = require('../utils/db'); // Calling our database again
+const ObjectId = mongodb.ObjectID;
 
 // As explained in the Routes file, this will contain controllers that will perfom
 // every step of the CRUD operations.
@@ -68,12 +69,12 @@ exports.getPending = (req, res, next) => {
 
 // Create
 exports.postTask = (req, res, next) => {
-    const content = req.body.textTask;
-
+    const content = req.body.content;
+    console.log(req.body)
     // We are creating our task object first, and then we will use it
     // in our database
     const newTask = {
-        taskId: Date.now().toString(),
+        dateCreation: new Date().toDateString(),
         content: content,
         isCompleted: false
     };
@@ -83,7 +84,7 @@ exports.postTask = (req, res, next) => {
         .collection('todoList')
         .insertOne(newTask) // This is the command to create one object in MongoDB
         .then(result => {
-            console.log(result);
+            // console.log(result);
             res.status(201).json({ message: 'Task added' });
         })
         .catch(err => {
@@ -94,13 +95,13 @@ exports.postTask = (req, res, next) => {
 
 // Update
 exports.editTask = (req, res, next) => {
-    console.log(req.body.taskId, req.body.taskText, req.body.isCompleted)
+    console.log(req.body)
     db.getDB()
         .db()
         .collection('todoList')
-        .updateOne({ taskId: req.body.taskId.toString() }, // The first parameter is the query to search for those we want to update
+        .updateOne({ _id: new ObjectId(req.params.id) }, // The first parameter is the query to search for those we want to update
             {
-                $set: { content: req.body.taskText, isCompleted: req.body.isCompleted }
+                $set: { isCompleted: req.body.isCompleted }
             })      // The second parameter is to set the changes we want to make
         .then(result => {
             res.status(200).json({ message: 'Task updated' });
@@ -113,11 +114,11 @@ exports.editTask = (req, res, next) => {
 
 // Delete
 exports.deleteTask = (req, res, next) => {
-    console.log(req.body.taskId)
+    console.log(req.params)
     db.getDB()
         .db()
         .collection('todoList')
-        .deleteOne({ taskId: req.body.taskId.toString() }) // Easy query to search for the object we want to delete
+        .deleteOne({ _id: new ObjectId(req.params.id) }) // Easy query to search for the object we want to delete
         .then(result => {
             res.status(200).json({ message: 'Task deleted' });
         })

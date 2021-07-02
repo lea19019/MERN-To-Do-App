@@ -2,7 +2,7 @@ const all = document.getElementById('all');
 
 let list = []
 // We are getting our tasks from the server to display them
-fetch('http://localhost:3000')
+fetch('http://localhost:5050')
     .then(response => {
         console.log(response)
         return response.json()

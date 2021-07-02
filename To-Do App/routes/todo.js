@@ -10,7 +10,7 @@ router.get('/', todoController.getIndex);
 router.get('/completed', todoController.getCompleted);
 router.get('/pending', todoController.getPending);
 router.post('/add-task', todoController.postTask);
-router.patch('/edit-task', todoController.editTask);
-router.delete('/delete-task', todoController.deleteTask);
+router.patch('/edit-task/:id', todoController.editTask);
+router.delete('/delete-task/:id', todoController.deleteTask);
 
 module.exports = router;
