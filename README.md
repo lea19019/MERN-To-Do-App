@@ -1,4 +1,4 @@
-# ToDo App Overview
+# MERN ToDo App Overview
 
 ToDo App implementation using a MongoDB database stored in the cloud. This project is meant to help me practice and demonstrate the usage of a cloud database such as MongoDB. The project performs CRUD operations and is build on a Node.js environment and uses a simple frontend app to consume the REST API to display the data.
 
